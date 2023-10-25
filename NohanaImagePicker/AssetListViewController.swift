@@ -109,7 +109,15 @@ class AssetListViewController: UICollectionViewController, UICollectionViewDeleg
     // MARK: - UICollectionViewDelegate
 
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        nohanaImagePickerController.delegate?.nohanaImagePicker?(nohanaImagePickerController, didSelectPhotoKitAsset: photoKitAssetList[indexPath.item].originalAsset)
+      // Workaround to fix crash when tap on photo
+      // Now it select photo (the same as pickButton)
+      // instead of opening AssetDetailListViewController
+      if let cell = collectionView.cellForItem(at: indexPath) as? AssetCell {
+        cell.didPushPickButton(cell.pickButton)
+      }
+      /*
+      nohanaImagePickerController.delegate?.nohanaImagePicker?(nohanaImagePickerController, didSelectPhotoKitAsset: photoKitAssetList[indexPath.item].originalAsset)
+       */
     }
     
     @available(iOS 13.0, *)
